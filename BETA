@@ -1,13 +1,33 @@
 #include <iostream>
 #include <conio.h>
-
+#include <stdio.h>
+#include <string.h>
+#define ESPACIOS 75
 using namespace std;
 
-int num1, num2;
+void pintarAvion(int x);
+
+char avion_11[]={' ',' ',' ','*',' ',' ',' ',0};
+char avion_12[]={' ','|','*','*','*','|',' ',0};
+char avion_13[]={'*','*',' ','*',' ','*','*',0};
+
+char CampoDeMovimientoX[]={' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',0};
+char  MoverseX[ESPACIOS]="";
 
 int main(){
-    cout << "Introduce dos numeros" << endl;
-    cin >> num1 >> num2;
-    cout << "El resultado es " << num1+num2;
-    getch();
+
+	pintarAvion(45);
+	
+	getch();
+}
+
+
+
+void pintarAvion(int x){
+	strcpy(MoverseX,CampoDeMovimientoX);
+	MoverseX[x]=0;
+	
+	printf(MoverseX); puts(avion_11);
+	printf(MoverseX); puts(avion_12);
+	printf(MoverseX); puts(avion_13);
 }
