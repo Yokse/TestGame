@@ -7,9 +7,9 @@ using namespace std;
 
 void pintarAvion(int x);
 
-char avion_11[]={' ',' ',' ','*',' ',' ',' ',0};
+char avion_11[]={' ',' ',' ','^',' ',' ',' ',0};
 char avion_12[]={' ','|','*','*','*','|',' ',0};
-char avion_13[]={'*','*',' ','*',' ','*','*',0};
+char avion_13[]={'|','*',' ','*',' ','*','|',0};
 
 char CampoDeMovimientoX[]={' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',0};
 char  MoverseX[ESPACIOS]="";
@@ -17,14 +17,14 @@ char  MoverseX[ESPACIOS]="";
 int main(){
 
 	char tecla;
-	int j, l, horizontal=35;
+	int a,d, horizontal=35;
 	do{
 		pintarAvion(horizontal);
 		tecla = getch();
-		if(tecla == 'j'){
+		if(tecla == 'a' && horizontal > 1){
 			horizontal -= 2;
 		}
-		if(tecla == 'l'){
+		if(tecla == 'd' && horizontal < 71){
 			horizontal += 2;
 		}
 		system("cls");
