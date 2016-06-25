@@ -1,6 +1,3 @@
-/* Codigo copiado de codigofacilito, de su playlist:
-	https://www.youtube.com/playlist?list=PLpOqH6AE0tNj8W0EGpoGG2CEMDJTt4ihZ
-*/
 #include <iostream>
 #include <conio.h>
 #include <stdio.h>
