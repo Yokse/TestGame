@@ -16,8 +16,19 @@ char  MoverseX[ESPACIOS]="";
 
 int main(){
 
-	pintarAvion(45);
-	
+	char tecla;
+	int j, l, horizontal=35;
+	do{
+		pintarAvion(horizontal);
+		tecla = getch();
+		if(tecla == 'j'){
+			horizontal -= 2;
+		}
+		if(tecla == 'l'){
+			horizontal += 2;
+		}
+		system("cls");
+	}while(1==1);
 	getch();
 }
 
