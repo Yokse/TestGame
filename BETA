@@ -1,2 +1,13 @@
 #include <iostream>
 #include <conio.h>
+
+using namespace std;
+
+int num1, num2;
+
+int main(){
+    cout << "Introduce dos numeros" << endl;
+    cin >> num1 >> num2;
+    cout << "El resultado es " << num1+num2;
+    getch();
+}
