@@ -1,3 +1,9 @@
+/* Codigo copiado de deividcoptero de sus videos:
+	https://www.youtube.com/watch?v=kM12AKffccA
+	https://www.youtube.com/watch?v=ltHEQ-cWp4s
+	https://www.youtube.com/watch?v=NFzaEMcxBDs
+*/
+
 #include <iostream>
 #include <conio.h>
 #include <stdio.h>
