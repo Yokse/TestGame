@@ -38,14 +38,19 @@ class NAVE{
 	int vidas;
 	int corazones;
 
+
 public:
 	
+	int VID(){ return vidas; }
+	int X(){ return x; }
+	int Y(){ return y; }
 	NAVE(int _x, int _y, int _corazones, int _vidas);
 	void pintar();
 	void borrar();
 	void mover();
 	void pintar_corazones();
 	void morir();
+	void COR(){ corazones--; }
 	
 	
 };
@@ -182,6 +187,7 @@ public:
 	AST(int _y, int _x);
 	void pintar();
 	void mover();
+	void choque(struct NAVE &N);
 	
 	
 };
@@ -215,6 +221,21 @@ void AST::mover(){
 	
 }
 
+void AST::choque(struct NAVE &N){
+	
+	if( x >= N.X() && x < N.X()+6 && y >= N.Y() && y <= N.Y()+2 ){
+		
+		N.COR();
+		N.borrar();
+		N.pintar();
+		N.pintar_corazones();
+		x = rand()%71 + 4;
+		y = 4;
+				
+	}
+	
+}
+
 int main(){
 	
 	int x;
@@ -233,17 +254,22 @@ int main(){
 	while(!game_over){
 		
 		ast1.mover(); ast2.mover(); ast3.mover();
+		ast1.choque(N); ast2.choque(N); ast3.choque(N);
 		N.morir();
 		N.mover();
 		
+		if(N.VID() == 0) game_over = true;
 		
-	Sleep(30);
+		Sleep(30);
 		
 	}
 	
 	
-	
-	
-	getch();
+limites();
+
+
+Sleep(3000000);
+
+
 	
 }
