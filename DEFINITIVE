@@ -1,1 +1,330 @@
+//  .o88b.  .d88b.  d8888b. d88888b d8888b.   d8888b. db    db 
+// d8P  Y8 .8P  Y8. 88  `8D 88'     88  `8D   88  `8D `8b  d8' 
+// 8P      88    88 88   88 88ooooo 88   88   88oooY'  `8bd8'  
+// 8b      88    88 88   88 88~~~~~ 88   88   88~~~b.    88    
+// Y8b  d8 `8b  d8' 88  .8D 88.     88  .8D   88   8D    88    
+//  `Y88P'  `Y88P'  Y8888D' Y88888P Y8888D'   Y8888P'    YP    
+                                                            
+                                                            
+// d888888b d88888b  .d8b.  .88b  d88. 
+// `~~88~~' 88'     d8' `8b 88'YbdP`88 
+//    88    88ooooo 88ooo88 88  88  88 
+//    88    88~~~~~ 88~~~88 88  88  88 
+//    88    88.     88   88 88  88  88 
+//    YP    Y88888P YP   YP YP  YP  YP 
+                                    
+                                    
+// db    db  .d88b.  db   dD .d8888. d88888b 
+// `8b  d8' .8P  Y8. 88 ,8P' 88'  YP 88'     
+//  `8bd8'  88    88 88,8P   `8bo.   88ooooo 
+//    88    88    88 88`8b     `Y8b. 88~~~~~ 
+//    88    `8b  d8' 88 `88. db   8D 88.     
+//    YP     `Y88P'  YP   YD `8888Y' Y88888P 
 
+#include <conio.h>
+#include <stdio.h>
+#include <windows.h>
+#include <stdlib.h>
+
+#define ARRIBA 72
+#define IZQUIERDA 75
+#define DERECHA 77
+#define ABAJO 80
+#define ESC 118
+#define F7 7
+
+void gotoxy(int x, int y){
+	
+	HANDLE hCon;
+	hCon = GetStdHandle(STD_OUTPUT_HANDLE);
+	COORD dwPos;
+	dwPos.X = x;
+	dwPos.Y = y;
+	
+	SetConsoleCursorPosition(hCon, dwPos);
+
+	
+}
+
+void OcultarCursor(){
+	
+	HANDLE hCon;
+	hCon = GetStdHandle(STD_OUTPUT_HANDLE);
+	CONSOLE_CURSOR_INFO cci;
+	cci.dwSize = 1;
+	cci.bVisible = FALSE;
+	
+	SetConsoleCursorInfo(hCon,&cci);		
+	
+}
+
+class NAVE{
+	
+	int x,y;
+	int vidas;
+	int corazones;
+
+
+public:
+	
+	int VID(){ return vidas; }
+	int X(){ return x; }
+	int Y(){ return y; }
+	NAVE(int _x, int _y, int _corazones, int _vidas);
+	void pintar();
+	void borrar();
+	void mover();
+	void pintar_corazones();
+	void morir();
+	void COR(){ corazones--; }
+	
+	
+};
+	
+	NAVE::NAVE(int _x, int _y, int _corazones, int _vidas){
+		
+		
+		y = _y;
+		x = _x;
+		corazones = _corazones;
+		vidas = _vidas;
+		
+	}
+
+
+
+void NAVE::pintar(){
+	
+	gotoxy(x,y); printf("  %c", 203);
+	gotoxy(x,y+1); printf(" %c%c%c", 219, 219, 219);
+	gotoxy(x,y+2); printf("%c%c%c%c%c",219,219,219,219,219);
+	
+	
+}
+
+void NAVE::borrar(){
+	
+	gotoxy(x,y); printf("           ");
+	gotoxy(x,y+1); printf("         ");
+	gotoxy(x,y+2); printf("         ");
+	
+}
+
+void NAVE::mover(){
+	
+	if(kbhit()){
+			
+			
+			char tecla = getch();
+			borrar();
+			if(tecla == IZQUIERDA && x>3) x-=2;
+			if(tecla == DERECHA && x+6 < 75) x+=2;
+			if(tecla == ARRIBA && y>4) y--;
+			if(tecla == ABAJO && y+3 < 33) y++;
+			if(tecla == 'e') vidas--;
+			pintar();
+			pintar_corazones();
+		}
+	
+}
+
+void limites(){
+	
+	for(int i = 2 ; i <78 ; i++){
+	
+		gotoxy(i, 3); printf("%c", 205);
+		gotoxy(i,33); printf("%c", 205);
+	
+	}
+	
+for(int i = 4 ; i < 33 ; i++){
+	
+		gotoxy(2,i); printf("%c", 186);
+		gotoxy(77,i); printf("%c", 186);
+	
+	}
+	
+	gotoxy(2, 3); printf("%c", 201);
+	gotoxy(2,33); printf("%c",200);
+	gotoxy(77,3); printf("%c",187);
+	gotoxy(77,33); printf("%c",188);
+	
+}
+
+void NAVE::pintar_corazones(){
+	
+	gotoxy(40,2); printf("LIFES -> %d",vidas);
+	gotoxy(58,2); printf("HEARTHS ->");
+	gotoxy(70,2); printf("     ");
+	for( int i = 0 ; i < corazones ; i++){
+		
+		gotoxy(70+i,2); printf("%c",64);
+		
+	}
+
+}
+	
+void NAVE::morir(){
+	
+	if(corazones == 0){
+		
+		borrar();
+		gotoxy(x,y); printf("   **   ");
+		gotoxy(x,y+1); printf("  ****  ");
+		gotoxy(x,y+2); printf("   **");
+		Sleep(200);
+		
+		borrar();
+		
+		gotoxy(x,y); printf(" * ** *");
+		gotoxy(x,y+1); printf("  **** ");
+		gotoxy(x,y+2); printf(" * ** *");
+		Sleep(200);
+		
+		borrar();
+		vidas--;
+		corazones = 3;
+		pintar_corazones();
+		pintar();
+		Sleep(150);
+		borrar();
+		Sleep(150);
+		pintar();
+		Sleep(150);
+		borrar();
+		Sleep(150);
+		pintar();
+		Sleep(150);
+		borrar();
+		Sleep(150);
+		pintar();
+		
+				
+	}
+	
+}
+
+class AST{
+	
+	int x,y;
+	
+public:
+	
+	AST(int _y, int _x);
+	void pintar();
+	void mover();
+	void choque(struct NAVE &N);
+	
+	
+};
+
+AST::AST (int _y, int _x){
+	
+	x = _x;
+	y = _y;
+	
+}
+
+void AST::pintar(){
+	
+	gotoxy(x,y); printf("%c",184);
+	
+}
+
+void AST::mover(){
+	
+	gotoxy(x,y); printf(" ");
+	y++;
+	
+	if(y > 32){
+		
+		x = rand()%71 + 4;
+		y = 4;
+		
+	}
+	
+	pintar();
+	
+}
+
+void AST::choque(struct NAVE &N){
+	
+	if( x >= N.X() && x < N.X()+6 && y >= N.Y() && y <= N.Y()+2 ){
+		
+		N.COR();
+		N.borrar();
+		N.pintar();
+		N.pintar_corazones();
+		x = rand()%71 + 4;
+		y = 4;
+				
+	}
+	
+}
+
+
+int main(){
+	
+	inicio:
+	
+	int teclaE;
+	int empezar = 0;
+	
+	system("CLS");
+	system("COLOR 07");
+	int x;
+	int y;
+	limites();
+	OcultarCursor();
+		
+		gotoxy(28,10); printf("Press any key to play!");
+		if(teclaE != F7) empezar = 1;
+		teclaE = getch();  
+		gotoxy(23,10); printf("                                      ");
+		Sleep(500);
+		gotoxy(40,10); printf("3");
+		Sleep(1000);
+		gotoxy(40,10); printf("2");
+		Sleep(1000);
+		gotoxy(40,10); printf("1");
+		Sleep(1000);
+		gotoxy(40,10); printf("GO!");
+		Sleep(500);
+		gotoxy(40,10); printf("       ");
+		
+	NAVE N(35,30,3,3);
+	N.pintar_corazones();
+	N.pintar();
+	
+	AST ast1(10,4); AST ast2(5,8); AST ast3(17,3);
+	
+	bool game_over = false;
+	
+	
+	while(!game_over){
+		
+		ast1.mover(); ast2.mover(); ast3.mover();
+		ast1.choque(N); ast2.choque(N); ast3.choque(N);
+		N.morir();
+		N.mover();
+		
+		if(N.VID() == -1) game_over = true;
+		
+		Sleep(30);
+		
+	}
+	
+	
+system("CLS");
+system ("COLOR C7");
+limites();
+gotoxy(35,10); printf("GAME OVER \n");
+gotoxy(22, 12); printf("IF YOU WANT TO CONTINUE PLAYING PRESS R.");
+gotoxy(26, 14); printf("IF YOU WANT TO EXIT PRESS ESC.");
+gotoxy(13, 30); printf("Thanks for playing, this game has been coded by team Yokse!");
+char teclaR = getch();
+if(teclaR == 'r') goto inicio;
+if(teclaR == ESC) return 0;
+
+	
+}
