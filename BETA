@@ -30,6 +30,7 @@
 #define IZQUIERDA 75
 #define DERECHA 77
 #define ABAJO 80
+#define ESC 118
 
 void gotoxy(int x, int y){
 	
@@ -116,9 +117,10 @@ void NAVE::mover(){
 			char tecla = getch();
 			borrar();
 			if(tecla == IZQUIERDA && x>3) x-=2;
-			if(tecla == DERECHA && x+6 < 77) x+=2;
+			if(tecla == DERECHA && x+6 < 75) x+=2;
 			if(tecla == ARRIBA && y>4) y--;
 			if(tecla == ABAJO && y+3 < 33) y++;
+			if(tecla == 'e') vidas--;
 			pintar();
 			pintar_corazones();
 		}
@@ -259,19 +261,18 @@ void AST::choque(struct NAVE &N){
 	
 }
 
-void GAME_OVER(){
-
-	
-
-}
 
 int main(){
 	
+	inicio:
+	
+	system("CLS");
+	system("COLOR 07");
 	int x;
 	int y;
 	limites();
 	OcultarCursor();
-	NAVE N(7,7,3, 3);
+	NAVE N(35,30,3,3);
 	N.pintar_corazones();
 	N.pintar();
 	
@@ -295,8 +296,15 @@ int main(){
 	
 	
 system("CLS");
+system ("COLOR C7");
 limites();
-GAME_OVER();
+gotoxy(35,10); printf("GAME OVER \n");
+gotoxy(22, 12); printf("IF YOU WANT TO CONTINUE PLAYING PRESS R.");
+gotoxy(26, 14); printf("IF YOU WANT TO EXIT PRESS ESC.");
+gotoxy(13, 30); printf("Thanks for playing, this game has been coded by team Yokse!");
+char teclaR = getch();
+if(teclaR == 'r') goto inicio;
+if(teclaR == ESC) return 0;
 
 	
 }
