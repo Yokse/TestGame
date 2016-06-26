@@ -31,6 +31,7 @@
 #define DERECHA 77
 #define ABAJO 80
 #define ESC 118
+#define F7 7
 
 void gotoxy(int x, int y){
 	
@@ -266,12 +267,31 @@ int main(){
 	
 	inicio:
 	
+	int teclaE;
+	int empezar = 0;
+	
 	system("CLS");
 	system("COLOR 07");
 	int x;
 	int y;
 	limites();
 	OcultarCursor();
+		
+		gotoxy(28,10); printf("Press any key to play!");
+		if(teclaE != F7) empezar = 1;
+		teclaE = getch();  
+		gotoxy(23,10); printf("                                      ");
+		Sleep(500);
+		gotoxy(40,10); printf("3");
+		Sleep(1000);
+		gotoxy(40,10); printf("2");
+		Sleep(1000);
+		gotoxy(40,10); printf("1");
+		Sleep(1000);
+		gotoxy(40,10); printf("GO!");
+		Sleep(500);
+		gotoxy(40,10); printf("       ");
+		
 	NAVE N(35,30,3,3);
 	N.pintar_corazones();
 	N.pintar();
