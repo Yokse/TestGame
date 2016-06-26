@@ -1,7 +1,31 @@
+//  .o88b.  .d88b.  d8888b. d88888b d8888b.   d8888b. db    db 
+// d8P  Y8 .8P  Y8. 88  `8D 88'     88  `8D   88  `8D `8b  d8' 
+// 8P      88    88 88   88 88ooooo 88   88   88oooY'  `8bd8'  
+// 8b      88    88 88   88 88~~~~~ 88   88   88~~~b.    88    
+// Y8b  d8 `8b  d8' 88  .8D 88.     88  .8D   88   8D    88    
+//  `Y88P'  `Y88P'  Y8888D' Y88888P Y8888D'   Y8888P'    YP    
+                                                            
+                                                            
+// d888888b d88888b  .d8b.  .88b  d88. 
+// `~~88~~' 88'     d8' `8b 88'YbdP`88 
+//    88    88ooooo 88ooo88 88  88  88 
+//    88    88~~~~~ 88~~~88 88  88  88 
+//    88    88.     88   88 88  88  88 
+//    YP    Y88888P YP   YP YP  YP  YP 
+                                    
+                                    
+// db    db  .d88b.  db   dD .d8888. d88888b 
+// `8b  d8' .8P  Y8. 88 ,8P' 88'  YP 88'     
+//  `8bd8'  88    88 88,8P   `8bo.   88ooooo 
+//    88    88    88 88`8b     `Y8b. 88~~~~~ 
+//    88    `8b  d8' 88 `88. db   8D 88.     
+//    YP     `Y88P'  YP   YD `8888Y' Y88888P 
+
 #include <conio.h>
 #include <stdio.h>
 #include <windows.h>
 #include <stdlib.h>
+
 #define ARRIBA 72
 #define IZQUIERDA 75
 #define DERECHA 77
@@ -95,7 +119,6 @@ void NAVE::mover(){
 			if(tecla == DERECHA && x+6 < 77) x+=2;
 			if(tecla == ARRIBA && y>4) y--;
 			if(tecla == ABAJO && y+3 < 33) y++;
-			if(tecla == 'e') corazones--;
 			pintar();
 			pintar_corazones();
 		}
@@ -236,6 +259,12 @@ void AST::choque(struct NAVE &N){
 	
 }
 
+void GAME_OVER(){
+
+	
+
+}
+
 int main(){
 	
 	int x;
@@ -258,18 +287,16 @@ int main(){
 		N.morir();
 		N.mover();
 		
-		if(N.VID() == 0) game_over = true;
+		if(N.VID() == -1) game_over = true;
 		
 		Sleep(30);
 		
 	}
 	
 	
+system("CLS");
 limites();
-
-
-Sleep(3000000);
-
+GAME_OVER();
 
 	
 }
