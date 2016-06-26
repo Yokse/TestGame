@@ -1,6 +1,7 @@
 #include <conio.h>
 #include <stdio.h>
 #include <windows.h>
+#include <stdlib.h>
 #define ARRIBA 72
 #define IZQUIERDA 75
 #define DERECHA 77
@@ -187,8 +188,8 @@ public:
 
 AST::AST (int _y, int _x){
 	
-	x = _x
-	y = _y
+	x = _x;
+	y = _y;
 	
 }
 
@@ -205,9 +206,12 @@ void AST::mover(){
 	
 	if(y > 32){
 		
-		x = rand()%71
+		x = rand()%71 + 4;
+		y = 4;
 		
 	}
+	
+	pintar();
 	
 }
 
@@ -221,12 +225,14 @@ int main(){
 	N.pintar_corazones();
 	N.pintar();
 	
+	AST ast1(10,4); AST ast2(5,8); AST ast3(17,3);
+	
 	bool game_over = false;
 	
 	
 	while(!game_over){
 		
-
+		ast1.mover(); ast2.mover(); ast3.mover();
 		N.morir();
 		N.mover();
 		
