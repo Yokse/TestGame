@@ -1,4 +1,4 @@
-//  .o88b.  .d88b.  d8888b. d88888b d8888b.   d8888b. db    db 
+  .o88b.  .d88b.  d8888b. d88888b d8888b.   d8888b. db    db 
 // d8P  Y8 .8P  Y8. 88  `8D 88'     88  `8D   88  `8D `8b  d8' 
 // 8P      88    88 88   88 88ooooo 88   88   88oooY'  `8bd8'  
 // 8b      88    88 88   88 88~~~~~ 88   88   88~~~b.    88    
@@ -32,6 +32,9 @@
 #define ABAJO 80
 #define ESC 118
 #define F7 7
+
+	int score = 0;
+	int seguir_contando = 1;
 
 void gotoxy(int x, int y){
 	
@@ -236,12 +239,16 @@ void AST::mover(){
 	gotoxy(x,y); printf(" ");
 	y++;
 	
+	gotoxy(7,2); printf("Score -> %d",score);
+	
 	if(y > 32){
 		
 		x = rand()%71 + 4;
 		y = 4;
 		
 	}
+	
+	if(y == 31 && seguir_contando == 1) score++;
 	
 	pintar();
 	
@@ -262,6 +269,20 @@ void AST::choque(struct NAVE &N){
 	
 }
 
+void SCORE(){
+	
+
+	gotoxy(10,2); printf("Score -> %d",score);
+	Sleep(1000);
+	score++;
+	
+	
+
+	
+}
+
+
+
 
 int main(){
 	
@@ -272,6 +293,8 @@ int main(){
 	
 	system("CLS");
 	system("COLOR 07");
+		
+
 	int x;
 	int y;
 	limites();
@@ -294,7 +317,7 @@ int main(){
 		
 	NAVE N(35,30,3,3);
 	N.pintar_corazones();
-	N.pintar();
+	N.pintar();	
 	
 	AST ast1(10,4); AST ast2(5,8); AST ast3(17,3);
 	
@@ -303,12 +326,19 @@ int main(){
 	
 	while(!game_over){
 		
+
 		ast1.mover(); ast2.mover(); ast3.mover();
 		ast1.choque(N); ast2.choque(N); ast3.choque(N);
 		N.morir();
 		N.mover();
+
 		
-		if(N.VID() == -1) game_over = true;
+		if(N.VID() == -1){
+			
+			game_over = true;
+			seguir_contando = 0;
+			
+		} 
 		
 		Sleep(30);
 		
@@ -322,6 +352,7 @@ gotoxy(35,10); printf("GAME OVER \n");
 gotoxy(22, 12); printf("IF YOU WANT TO CONTINUE PLAYING PRESS R.");
 gotoxy(26, 14); printf("IF YOU WANT TO EXIT PRESS ESC.");
 gotoxy(13, 30); printf("Thanks for playing, this game has been coded by team Yokse!");
+gotoxy(30,20); printf("YOUR SCORE IS -> %d",score);
 char teclaR = getch();
 if(teclaR == 'r') goto inicio;
 if(teclaR == ESC) return 0;
