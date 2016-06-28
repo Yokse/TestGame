@@ -36,7 +36,7 @@
 #define F7 7
 
 using namespace std;
-	int score = 0;
+	long int score = 0;
 	int seguir_contando = 1;
 	int newscore = 0;
 	int record;
@@ -130,6 +130,7 @@ void NAVE::mover(){
 			if(tecla == ARRIBA && y>4) y--;
 			if(tecla == ABAJO && y+3 < 33) y++;
 			if(tecla == 'e') vidas--;
+			if(tecla == 's') score = score + 100;
 			pintar();
 			pintar_corazones();
 		}
@@ -367,8 +368,8 @@ gotoxy(26, 14); printf("IF YOU WANT TO EXIT PRESS ESC.");
 gotoxy(13, 30); printf("Thanks for playing, this game has been coded by team Yokse!");
 saveSCORE();
 if(newscore == 0){
-gotoxy(30,20); printf("SCORE -> %d",score);
-gotoxy(29,23); printf("BEST SCORE -> %d",record);
+gotoxy(35,19); printf("SCORE -> %d",score);
+gotoxy(34,22); printf("RECORD -> %d",record);
 }
 
 if(newscore == 1){
