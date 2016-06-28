@@ -44,6 +44,31 @@ using namespace std;
 	long int coins1;
 	long int coins2;
 	int playing = 0;
+	int more_ast1 = 0;
+	int x1;
+	int x2;
+	int x3;
+	int x4;
+	int x5;
+	int y1;
+	int y2;
+	int y3;
+	int y4;
+	int y5;
+
+
+void set_console(){
+	
+	HWND console = GetConsoleWindow();
+    RECT r;
+    GetWindowRect(console, &r); //stores the console's current dimensions
+
+    MoveWindow(console, r.left, r.top, 145, 300, TRUE); // 800 width, 100 height
+	
+}
+
+
+
 
 void gotoxy(int x, int y){
 	
@@ -341,20 +366,19 @@ int main(){
 	gotoxy(35,12); printf("2. SHOP");
 	gotoxy(32,14); printf("3. INVENTORY");
 	gotoxy(35,16); printf("4. EXIT");
+	gotoxy(55,4); printf("Coins -> %d",coins1);
 	gotoxy(18,30); printf("Press the number before the action to do it.");
 	opcion:
 	teclA = getch();
 	if(teclA == '1'){
 		
 		system("CLS");
-		playing = 1;
 		goto juego;
 	}
 	if(teclA == '4') return 0;
 	if(teclA != 1,2,3,4) goto opcion;
 		
 		juego:
-		while(playing == 1){
 
 		limites();
 		gotoxy(28,10); printf("Press any key to play!");
@@ -375,8 +399,10 @@ int main(){
 	NAVE N(35,30,3,3);
 	N.pintar_corazones();
 	N.pintar();	
+
 	
-	AST ast1(10,4); AST ast2(5,8); AST ast3(17,3);
+	AST ast1(10,4); AST ast2(5,8); AST ast3(17,3); AST ast4(24,12);
+	if(more_ast1 == 1) AST ast5(x5,y5);
 	
 	bool game_over = false;
 	
@@ -384,8 +410,8 @@ int main(){
 	while(!game_over){
 		
 
-		ast1.mover(); ast2.mover(); ast3.mover();
-		ast1.choque(N); ast2.choque(N); ast3.choque(N);
+		ast1.mover(); ast2.mover(); ast3.mover(); ast4.mover();
+		ast1.choque(N); ast2.choque(N); ast3.choque(N); ast4.choque(N);
 		N.morir();
 		N.mover();
 
@@ -428,7 +454,7 @@ char teclaR = getch();
 if(teclaR == 'r') goto inicio;
 if(teclaR == ESC) playing = 0;
 
-}
+
 
 
 	
