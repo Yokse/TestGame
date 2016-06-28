@@ -342,6 +342,7 @@ int main(){
 	gotoxy(32,14); printf("3. INVENTORY");
 	gotoxy(35,16); printf("4. EXIT");
 	gotoxy(18,30); printf("Press the number before the action to do it.");
+	opcion:
 	teclA = getch();
 	if(teclA == '1'){
 		
@@ -349,6 +350,7 @@ int main(){
 		playing = 1;
 	}
 	if(teclA == '4') return 0;
+	if(teclA != 1,2,3,4) goto opcion;
 		
 		
 		while(playing == 1){
