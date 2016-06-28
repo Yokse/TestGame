@@ -348,11 +348,12 @@ int main(){
 		
 		system("CLS");
 		playing = 1;
+		goto juego;
 	}
 	if(teclA == '4') return 0;
 	if(teclA != 1,2,3,4) goto opcion;
 		
-		
+		juego:
 		while(playing == 1){
 
 		limites();
