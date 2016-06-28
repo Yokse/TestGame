@@ -43,6 +43,7 @@ using namespace std;
 	long int record;
 	long int coins1;
 	long int coins2;
+	int playing = 0;
 
 void gotoxy(int x, int y){
 	
@@ -325,6 +326,7 @@ int main(){
 	
 	int teclaE;
 	int empezar = 0;
+	int teclA;
 	
 	system("CLS");
 	system("COLOR 07");
@@ -334,7 +336,24 @@ int main(){
 	int y;
 	limites();
 	OcultarCursor();
+	
+	gotoxy(35,10); printf("1. PLAY");
+	gotoxy(35,12); printf("2. SHOP");
+	gotoxy(32,14); printf("3. INVENTORY");
+	gotoxy(35,16); printf("4. EXIT");
+	gotoxy(18,30); printf("Press the number before the action to do it.");
+	teclA = getch();
+	if(teclA == '1'){
 		
+		system("CLS");
+		playing = 1;
+	}
+	if(teclA == '4') return 0;
+		
+		
+		while(playing == 1){
+
+		limites();
 		gotoxy(28,10); printf("Press any key to play!");
 		if(teclaE != F7) empezar = 1;
 		teclaE = getch();  
@@ -378,12 +397,12 @@ int main(){
 		Sleep(30);
 		
 	}
-	
+		
 	
 system("CLS");
 system ("COLOR C7");
 limites();
-gotoxy(35,10); printf("GAME OVER \n");
+gotoxy(35,10); printf("GAME OVER!");
 gotoxy(22, 12); printf("IF YOU WANT TO CONTINUE PLAYING PRESS R.");
 gotoxy(26, 14); printf("IF YOU WANT TO EXIT PRESS ESC.");
 gotoxy(13, 30); printf("Thanks for playing, this game has been coded by team Yokse!");
@@ -404,7 +423,10 @@ saveCOINS();
 gotoxy(32,26); printf("TOTAL COINS -> %d", coins1);
 char teclaR = getch();
 if(teclaR == 'r') goto inicio;
-if(teclaR == ESC) return 0;
+if(teclaR == ESC) playing = 0;
+
+}
+
 
 	
 }
