@@ -342,7 +342,7 @@ gotoxy(22, 12); printf("IF YOU WANT TO CONTINUE PLAYING PRESS R.");
 gotoxy(26, 14); printf("IF YOU WANT TO EXIT PRESS ESC.");
 gotoxy(13, 30); printf("Thanks for playing, this game has been coded by team Yokse!");
 
-if(newscore > bestscore) newscore = 1;
+if(score > bestscore) newscore = 1;
 
 if(newscore == 0){
 gotoxy(30,20); printf("SCORE -> %d",score);
