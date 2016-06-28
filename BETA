@@ -390,7 +390,7 @@ gotoxy(13, 30); printf("Thanks for playing, this game has been coded by team Yok
 saveSCORE();
 if(newscore == 0){
 gotoxy(35,19); printf("SCORE -> %d",score);
-gotoxy(34,22); printf("RECORD -> %d",record);
+gotoxy(34,21); printf("RECORD -> %d",record);
 }
 
 if(newscore == 1){
@@ -398,8 +398,10 @@ if(newscore == 1){
 	gotoxy(30,20); printf("NEW RECORD! -> %d",score);
 	
 }
-gotoxy(30,25); printf("COINS EARNED -> %d",coins2);
+coins2 = (score*0.01);
+gotoxy(32,25); printf("COINS EARNED -> %d",coins2);
 saveCOINS();
+gotoxy(32,26); printf("TOTAL COINS -> %d", coins1);
 char teclaR = getch();
 if(teclaR == 'r') goto inicio;
 if(teclaR == ESC) return 0;
