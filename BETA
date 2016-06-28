@@ -35,6 +35,7 @@
 #define ESC 118
 #define F7 7
 
+using namespace std;
 	int score = 0;
 	int seguir_contando = 1;
 	int newscore = 0;
@@ -277,7 +278,7 @@ void AST::choque(struct NAVE &N){
 void saveSCORE(){
 	ifstream leerRecord;
 	leerRecord.open("record.txt");
-	if(leerRecord.fail){
+	if(leerRecord.fail()){
 		ofstream creardoc;
 		creardoc.open("record.txt");
 		creardoc << " ";
@@ -364,7 +365,7 @@ gotoxy(35,10); printf("GAME OVER \n");
 gotoxy(22, 12); printf("IF YOU WANT TO CONTINUE PLAYING PRESS R.");
 gotoxy(26, 14); printf("IF YOU WANT TO EXIT PRESS ESC.");
 gotoxy(13, 30); printf("Thanks for playing, this game has been coded by team Yokse!");
-saveScore();
+saveSCORE();
 if(newscore == 0){
 gotoxy(30,20); printf("SCORE -> %d",score);
 gotoxy(29,23); printf("BEST SCORE -> %d",record);
