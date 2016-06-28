@@ -25,6 +25,8 @@
 #include <stdio.h>
 #include <windows.h>
 #include <stdlib.h>
+#include <iostream>
+#include <fstream>
 
 #define ARRIBA 72
 #define IZQUIERDA 75
@@ -36,7 +38,7 @@
 	int score = 0;
 	int seguir_contando = 1;
 	int newscore = 0;
-	int bestscore;
+	int record;
 
 void gotoxy(int x, int y){
 	
@@ -272,6 +274,27 @@ void AST::choque(struct NAVE &N){
 	
 }
 
+void saveSCORE(){
+	ifstream leerRecord;
+	leerRecord.open("record.txt");
+	if(leerRecord.fail){
+		ofstream creardoc;
+		creardoc.open("record.txt");
+		creardoc << " ";
+		creardoc.close();
+	}
+	leerRecord>> record;
+	leerRecord.close();
+	if(score > record){
+		newscore = 1;
+		record = score;
+		ofstream guardarRecord;
+		guardarRecord.open("record.txt");
+		guardarRecord << score;
+		guardarRecord.close();
+	}
+}
+
 
 int main(){
 	
@@ -341,17 +364,15 @@ gotoxy(35,10); printf("GAME OVER \n");
 gotoxy(22, 12); printf("IF YOU WANT TO CONTINUE PLAYING PRESS R.");
 gotoxy(26, 14); printf("IF YOU WANT TO EXIT PRESS ESC.");
 gotoxy(13, 30); printf("Thanks for playing, this game has been coded by team Yokse!");
-
-if(score > bestscore) newscore = 1;
-
+saveScore();
 if(newscore == 0){
 gotoxy(30,20); printf("SCORE -> %d",score);
-gotoxy(29,23); printf("BEST SCORE -> %d",bestscore);
+gotoxy(29,23); printf("BEST SCORE -> %d",record);
 }
 
 if(newscore == 1){
 	
-	gotoxy(30,20); printf("NEW BEST SCORE! -> %d",score);
+	gotoxy(30,20); printf("NEW RECORD! -> %d",score);
 	
 }
 char teclaR = getch();
