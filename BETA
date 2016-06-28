@@ -36,10 +36,13 @@
 #define F7 7
 
 using namespace std;
+
 	long int score = 0;
 	int seguir_contando = 1;
 	int newscore = 0;
-	int record;
+	long int record;
+	long int coins1;
+	long int coins2;
 
 void gotoxy(int x, int y){
 	
@@ -112,9 +115,9 @@ void NAVE::pintar(){
 
 void NAVE::borrar(){
 	
-	gotoxy(x,y); printf("           ");
-	gotoxy(x,y+1); printf("         ");
-	gotoxy(x,y+2); printf("         ");
+	gotoxy(x,y); printf("        ");
+	gotoxy(x,y+1); printf("        ");
+	gotoxy(x,y+2); printf("        ");
 	
 }
 
@@ -297,6 +300,24 @@ void saveSCORE(){
 	}
 }
 
+void saveCOINS(){
+	ifstream leercoins;
+	leercoins.open("coins.txt");
+	if (leercoins.fail()){
+		ofstream creardoc2;
+		creardoc2.open("coins.txt");
+		creardoc2 << " ";
+		creardoc2.close();
+	}
+	leercoins >> coins1;
+	leercoins.close();
+	coins1 = coins1 + coins2;
+	ofstream guardarcoins;
+	guardarcoins.open("coins.txt");
+	guardarcoins << coins1;
+	guardarcoins.close();
+}
+
 
 int main(){
 	
@@ -377,6 +398,8 @@ if(newscore == 1){
 	gotoxy(30,20); printf("NEW RECORD! -> %d",score);
 	
 }
+gotoxy(30,25); printf("COINS EARNED -> %d",coins2);
+saveCOINS();
 char teclaR = getch();
 if(teclaR == 'r') goto inicio;
 if(teclaR == ESC) return 0;
