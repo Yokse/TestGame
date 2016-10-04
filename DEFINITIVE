@@ -45,6 +45,7 @@ using namespace std;
 	long int record;
 	long int coins1;
 	long int coins2;
+	long int coins3;
 	int playing = 0;
 	int more_ast1 = 0;
 	bool game_over = false;
@@ -386,7 +387,7 @@ void show_coins(){
 	
 	ifstream leercoins;
 	leercoins.open("coins.txt");
-	leercoins >> coins1;
+	leercoins >> coins3;
 	leercoins.close();
 	
 }
