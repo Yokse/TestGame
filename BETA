@@ -27,12 +27,14 @@
 #include <stdlib.h>
 #include <iostream>
 #include <fstream>
+#include <time.h>
+
 
 #define ARRIBA 72
 #define IZQUIERDA 75
 #define DERECHA 77
 #define ABAJO 80
-#define ESC 118
+#define ESC 27
 #define F7 7
 
 using namespace std;
@@ -43,18 +45,38 @@ using namespace std;
 	long int record;
 	long int coins1;
 	long int coins2;
+	long int coins3;
 	int playing = 0;
 	int more_ast1 = 0;
-	int x1;
-	int x2;
-	int x3;
-	int x4;
-	int x5;
-	int y1;
-	int y2;
-	int y3;
-	int y4;
-	int y5;
+	bool game_over = false;
+	int np = 0;
+	int skin = 0;
+	int skin1 = 0;
+		
+		int x1;
+		int x2;
+		int x3;
+		int x4;
+		int x5;
+		int y1;
+		int y2;
+		int y3;
+		int y4;
+		int y5;
+
+
+void set_console(){
+	
+	HWND console = GetConsoleWindow();
+    RECT r;
+    GetWindowRect(console, &r); //stores the console's current dimensions
+
+    MoveWindow(console, r.left, r.top, 145, 300, TRUE); // 800 width, 100 height
+	
+}
+
+
+
 
 void gotoxy(int x, int y){
 	
@@ -91,6 +113,7 @@ class NAVE{
 public:
 	
 	int VID(){ return vidas; }
+	int CORa(){ return corazones; }
 	int X(){ return x; }
 	int Y(){ return y; }
 	NAVE(int _x, int _y, int _corazones, int _vidas);
@@ -99,7 +122,7 @@ public:
 	void mover();
 	void pintar_corazones();
 	void morir();
-	void COR(){ corazones--; }
+	void COR(){ vidas--, corazones--;}
 	
 	
 };
@@ -118,9 +141,18 @@ public:
 
 void NAVE::pintar(){
 	
-	gotoxy(x,y); printf("  %c", 203);
-	gotoxy(x,y+1); printf(" %c%c%c", 219, 219, 219);
-	gotoxy(x,y+2); printf("%c%c%c%c%c",219,219,219,219,219);
+	if(skin == 1 ){ //DEFAULT
+	gotoxy(x,y); printf("  %c", 193);
+	gotoxy(x,y+1); printf(" %c%c%c", 176, 219, 176);
+	gotoxy(x,y+2); printf("%c%c%c%c%c",176,219,219,219,176);
+}	
+	if(skin == 2){ //SKIN1
+		
+		gotoxy(x,y); printf("  %c", 202);
+		gotoxy(x,y+1); printf(" %c%c%c", 177, 254, 177);
+		gotoxy(x,y+2); printf("%c%c%c%c%c",177,254,254,254,177);
+		
+}
 	
 	
 }
@@ -140,12 +172,10 @@ void NAVE::mover(){
 			
 			char tecla = getch();
 			borrar();
-			if(tecla == IZQUIERDA && x>3) x-=2;
-			if(tecla == DERECHA && x+6 < 75) x+=2;
-			if(tecla == ARRIBA && y>4) y--;
-			if(tecla == ABAJO && y+3 < 33) y++;
-			if(tecla == 'e') vidas--;
-			if(tecla == 's') score = score + 100;
+			if(tecla == IZQUIERDA && x>3 || tecla == 'a' && x>3) x-=2;
+			if(tecla == DERECHA && x+6 < 75 || tecla == 'd' && x+6 < 75) x+=2;
+			if(tecla == ARRIBA && y>4 || tecla == 'w' && y>4) y--;
+			if(tecla == ABAJO && y+3 < 33 || tecla == 's' && y+3 < 33) y++;
 			pintar();
 			pintar_corazones();
 		}
@@ -177,7 +207,6 @@ for(int i = 4 ; i < 33 ; i++){
 
 void NAVE::pintar_corazones(){
 	
-	gotoxy(40,2); printf("LIFES -> %d",vidas);
 	gotoxy(58,2); printf("HEARTHS ->");
 	gotoxy(70,2); printf("     ");
 	for( int i = 0 ; i < corazones ; i++){
@@ -189,8 +218,14 @@ void NAVE::pintar_corazones(){
 }
 	
 void NAVE::morir(){
-	
+		
 	if(corazones == 0){
+		
+		borrar();
+		gotoxy(x,y); printf("   *   ");
+		gotoxy(x,y+1); printf("  **  ");
+		gotoxy(x,y+2); printf("   *");
+		Sleep(200);
 		
 		borrar();
 		gotoxy(x,y); printf("   **   ");
@@ -199,15 +234,31 @@ void NAVE::morir(){
 		Sleep(200);
 		
 		borrar();
+		gotoxy(x,y); printf("  * ** *  ");
+		gotoxy(x,y+1); printf("  ****  ");
+		gotoxy(x,y+2); printf("  * ** *");
+		Sleep(200);
+		
+		borrar();
 		
 		gotoxy(x,y); printf(" * ** *");
-		gotoxy(x,y+1); printf("  **** ");
+		gotoxy(x,y+1); printf("  ***** ");
 		gotoxy(x,y+2); printf(" * ** *");
 		Sleep(200);
 		
 		borrar();
 		vidas--;
+		if(vidas > 1){
+	
 		corazones = 3;
+		
+		}
+		
+		if(vidas == 1){
+			
+			game_over = true;
+			
+		}
 		pintar_corazones();
 		pintar();
 		Sleep(150);
@@ -265,7 +316,9 @@ void AST::mover(){
 	
 	if(y > 32){
 		
-		x = rand()%71 + 4;
+		
+	
+	x = rand()%71 + 4;
 		y = 4;
 		
 	}
@@ -280,6 +333,7 @@ void AST::choque(struct NAVE &N){
 	
 	if( x >= N.X() && x < N.X()+6 && y >= N.Y() && y <= N.Y()+2 ){
 		
+		srand (time(NULL));
 		N.COR();
 		N.borrar();
 		N.pintar();
@@ -330,27 +384,6 @@ void saveCOINS(){
 	guardarcoins.close();
 }
 
-bool nave1shop=true;
-bool nave1inv=false;
-
-void comprarnave1(){
-	int valornave1=1000;
-	ifstream leercoins;
-	leercoins.open("coins.txt");
-	leercoins >> coins1;
-	leercoins.close();
-	if(coins1 >= valornave1){
-		coins1=coins1-valornave1;
-		nave1shop=false;
-		nave1inv=true;
-	}
-	ofstream guardarcoins;
-	guardarcoins.open("coins.txt");
-	guardarcoins << coins1;
-	guardarcoins.close();
-}
-
-
 bool AjustarVentana(int Ancho, int Alto) {
 	_COORD Coordenada;
 	Coordenada.X = Ancho;
@@ -371,50 +404,103 @@ bool AjustarVentana(int Ancho, int Alto) {
 	// Cambiar tamaño de consola a lo especificado en el buffer
 	SetConsoleWindowInfo(hConsola, TRUE, &Rect);
 	return TRUE;
+
+}
+
+void show_coins(){
+	
+	ifstream leercoins;
+	leercoins.open("coins.txt");
+	leercoins >> coins3;
+	leercoins.close();
+	
+}
+
+void gameovercolors(){
+	
+system("CLS");
+gotoxy(35,15); printf("GAME OVER!!");
+system("COLOR A0");
+Sleep(100);
+system("COLOR C7");
+Sleep(100);
+system("COLOR E5");
+Sleep(100);
+system("COLOR F0");
+Sleep(100);
+system("COLOR B4");
+Sleep(100);
+system("COLOR D7");
+Sleep(100);
+
+	
+	
 }
 
 
 int main(){
 	
+	menu:
+	
 	AjustarVentana(80,35);
+	
 	inicio:
 	
 	int teclaE;
 	int empezar = 0;
 	int teclA;
+	int teclB;
+	int teclC;
 	
 	system("CLS");
 	system("COLOR 07");
 		
-
 	int x;
 	int y;
 	limites();
 	OcultarCursor();
+	show_coins();
 	
 	gotoxy(35,10); printf("1. PLAY");
-	gotoxy(35,12); printf("2. SHOP");
-	gotoxy(32,14); printf("3. INVENTORY");
+	gotoxy(20,12); printf("2. SHOP (Not added in the current version)");
+	gotoxy(18,14); printf("3. INVENTORY (Not added in the current version)");
 	gotoxy(35,16); printf("4. EXIT");
-	gotoxy(55,4); printf("Coins -> %d",coins1);
-	gotoxy(18,30); printf("Press the number before the action to do it.");
+	gotoxy(55,4); printf("Coins -> %d",coins3);
+	gotoxy(26,30); printf("Press the number to do it.");
+	gotoxy(1,1); printf("Meteor Chaos [Retro] - 1.0                     www.yokse.com to check updates!");
 	opcion:
 	teclA = getch();
 	if(teclA == '1'){
 		
 		system("CLS");
 		goto juego;
+		
 	}
+	
 	if(teclA == '4') return 0;
+						
+
 	if(teclA != 1,2,3,4) goto opcion;
+
+
 		
 		juego:
-
+		
+		int VID = 3;
+		int CORa = 3;
+		game_over = false;
+		seguir_contando = 1;
+				
 		limites();
+		NAVE N(35,30,3,3);
+		N.pintar_corazones();
+		N.pintar();	
 		gotoxy(28,10); printf("Press any key to play!");
+		gotoxy(26,12); printf("Use WASD or arrows to move!");
 		if(teclaE != F7) empezar = 1;
 		teclaE = getch();  
 		gotoxy(23,10); printf("                                      ");
+		gotoxy(26,12); printf("                                        ");
 		Sleep(500);
 		gotoxy(40,10); printf("3");
 		Sleep(1000);
@@ -423,19 +509,16 @@ int main(){
 		gotoxy(40,10); printf("1");
 		Sleep(1000);
 		gotoxy(40,10); printf("GO!");
-		Sleep(500);
+		Sleep(300);
 		gotoxy(40,10); printf("       ");
 		
-	NAVE N(35,30,3,3);
-	N.pintar_corazones();
-	N.pintar();	
+
 
 	
-	AST ast1(10,4); AST ast2(5,8); AST ast3(17,3); AST ast4(24,12);
-	if(more_ast1 == 1) AST ast5(x5,y5);
+	AST ast1(10,4); AST ast2(5,8); AST ast3(17,3); AST ast4(24,12); 
+	if(more_ast1 == 1) AST ast5(x5,y5); 
 	
-	bool game_over = false;
-	
+
 	
 	while(!game_over){
 		
@@ -445,25 +528,33 @@ int main(){
 		N.morir();
 		N.mover();
 
+
 		
-		if(N.VID() == -1){
+		if(N.CORa() == 0){
 			
 			game_over = true;
 			seguir_contando = 0;
+			goto gameover;
 			
 		} 
 		
 		Sleep(30);
 		
 	}
-		
+
+gameover:
+
 	
+gameovercolors();
+
+
+c_gameover:
+		
 system("CLS");
 system ("COLOR C7");
 limites();
-gotoxy(35,10); printf("GAME OVER!");
 gotoxy(22, 12); printf("IF YOU WANT TO CONTINUE PLAYING PRESS R.");
-gotoxy(26, 14); printf("IF YOU WANT TO EXIT PRESS ESC.");
+gotoxy(20, 14); printf("IF YOU WANT TO RETURN TO THE MENU PRESS ESC.");
 gotoxy(13, 30); printf("Thanks for playing, this game has been coded by team Yokse!");
 saveSCORE();
 if(newscore == 0){
@@ -480,12 +571,36 @@ coins2 = (score*0.01);
 gotoxy(32,25); printf("COINS EARNED -> %d",coins2);
 saveCOINS();
 gotoxy(32,26); printf("TOTAL COINS -> %d", coins1);
+
+fin:
+
 char teclaR = getch();
-if(teclaR == 'r') goto inicio;
-if(teclaR == ESC) playing = 0;
+
+if(teclaR == 'r'){
+	
+	system("CLS");
+	system("COLOR 0F");
+	np++;
+	score = 0;
+	newscore = 0;
+	goto juego;	
+	
+} 
 
 
+if(teclaR == ESC){
+ 
+ 
+ system("CLS");
+ system("COLOR 0F");
+ goto inicio;
 
+ 
+}
 
+if(teclaR != F7) goto fin;
+	
 	
 }
+	
+
