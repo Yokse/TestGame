@@ -50,9 +50,11 @@ using namespace std;
 	int more_ast1 = 0;
 	bool game_over = false;
 	int np = 0;
-	int skin1;
+	int skin1=1;
 	int skin2;
 	int skin3;
+	int precioskin2=200;
+	int precioskin3=500;
 		
 		int x1;
 		int x2;
@@ -142,12 +144,12 @@ public:
 
 void NAVE::pintar(){
 	
-	if(skin == 1 ){ //DEFAULT
+	if(skin1 == 1 ){ //DEFAULT
 	gotoxy(x,y); printf("  %c", 193);
 	gotoxy(x,y+1); printf(" %c%c%c", 176, 219, 176);
 	gotoxy(x,y+2); printf("%c%c%c%c%c",176,219,219,219,176);
 }	
-	if(skin == 2){ //SKIN1
+	if(skin2 == 2){ //SKIN1
 		
 		gotoxy(x,y); printf("  %c", 202);
 		gotoxy(x,y+1); printf(" %c%c%c", 177, 254, 177);
@@ -385,7 +387,7 @@ void saveCOINS(){
 	guardarcoins.close();
 }
 
-void tienda(){
+void leerSKINS(){
 	ifstream leerskins;
 	leerskins.open("skins.txt");
 	if (leerskins.fail()){
@@ -397,6 +399,42 @@ void tienda(){
 	leerskins >> skin2 >> skin3;
 	leerskins.close();
 }
+void guardarSKINS(){
+	ofstream guardarskins;
+	guardarskins.open("skins.txt");
+	guardarskins << skin2 <<"\n"<< skin3;
+	guardarskins.close();
+}
+
+void comprarskin2(){
+	leerSKINS();
+	if(skin2==0){
+		if (coins3 < precioskin2){
+			cout << "NO TIENES DINERO POBRETON";
+		}
+		else{
+			coins2= -precioskin2;
+			saveCOINS();
+			skin2=1;
+			guardarSKINS();
+		}
+	}
+}
+void comprarskin3(){
+	leerSKINS();
+	if(skin3==0){
+		if (coins3 < precioskin3){
+			cout << "NO TIENES DINERO POBRETON";
+		}
+		else{
+			coins2= -precioskin3;
+			saveCOINS();
+			skin3=1;
+			guardarSKINS();
+		}
+	}
+}
+
 
 bool AjustarVentana(int Ancho, int Alto) {
 	_COORD Coordenada;
