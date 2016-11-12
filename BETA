@@ -50,8 +50,9 @@ using namespace std;
 	int more_ast1 = 0;
 	bool game_over = false;
 	int np = 0;
-	int skin = 0;
-	int skin1 = 0;
+	int skin1;
+	int skin2;
+	int skin3;
 		
 		int x1;
 		int x2;
@@ -384,6 +385,19 @@ void saveCOINS(){
 	guardarcoins.close();
 }
 
+void tienda(){
+	ifstream leerskins;
+	leerskins.open("skins.txt");
+	if (leerskins.fail()){
+		ofstream crearskins;
+		crearskins.open("skins.txt");
+		crearskins << "0" <<"\n" << "0";
+		crearskins.close();
+	}
+	leerskins >> skin2 >> skin3;
+	leerskins.close();
+}
+
 bool AjustarVentana(int Ancho, int Alto) {
 	_COORD Coordenada;
 	Coordenada.X = Ancho;
@@ -436,6 +450,7 @@ Sleep(100);
 	
 	
 }
+
 
 
 int main(){
@@ -602,5 +617,3 @@ if(teclaR != F7) goto fin;
 	
 	
 }
-	
-
